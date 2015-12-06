@@ -4,12 +4,14 @@ using System.Collections;
 [RequireComponent(typeof(AudioSource))]
 public class FireCtrl : MonoBehaviour {
 
+	public MeshRenderer muzzleFlash;
 	public AudioClip fireSfx;
 	
 	private AudioSource source;
 	// Use this for initialization
 	void Start () {
 		source = GetComponent<AudioSource>();
+		muzzleFlash.enabled = false;
 	}
 	
 	public GameObject bullet;
@@ -25,7 +27,7 @@ public class FireCtrl : MonoBehaviour {
 	}
 	
 	void Fire(){
-		
+		StartCoroutine(this.ShowMuzzleFlash());
 		
 		CreateBullet();
 		source.PlayOneShot(fireSfx, 0.9f);
@@ -36,5 +38,20 @@ public class FireCtrl : MonoBehaviour {
 		
 	}
 	
+	
+	 IEnumerator ShowMuzzleFlash()
+	 {
+		 float scale = Random.Range(1.0f, 2.0f);
+		 Quaternion rot = Quaternion.Euler(0,0,Random.Range(0, 360));
+		 
+		 muzzleFlash.transform.localScale = Vector3.one * scale;
+		 muzzleFlash.transform.localRotation = rot;
+		 
+		 muzzleFlash.enabled = true;
+		 
+		 yield return new WaitForSeconds(Random.Range(0.05f, 0.3f));
+		 
+		 muzzleFlash.enabled = false;
+	 }
 	
 }
