@@ -80,6 +80,7 @@
 'Assets/02.Scripts/BulletCtrl.cs'
 'Assets/02.Scripts/FireCtrl.cs'
 'Assets/02.Scripts/FollowCam.cs'
+'Assets/02.Scripts/MonsterCtrl.cs'
 'Assets/02.Scripts/MyGizmo.cs'
 'Assets/02.Scripts/PlayerControl.cs'
 'Assets/02.Scripts/WallCtrl.cs'
