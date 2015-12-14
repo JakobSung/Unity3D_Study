@@ -35,7 +35,6 @@ public class FireCtrl : MonoBehaviour {
 	
 	void CreateBullet(){
 		Instantiate(bullet, firePos.position, firePos.rotation);
-		
 	}
 	
 	
