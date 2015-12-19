@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class MonsterCtrl : MonoBehaviour {
 
@@ -17,6 +18,8 @@ public class MonsterCtrl : MonoBehaviour {
 	
 	Animator animator = null;
 	
+	private GameUI _gameUI;
+	
 	// Use this for initialization
 	void Start () 
 	{
@@ -27,7 +30,8 @@ public class MonsterCtrl : MonoBehaviour {
 		
 		StartCoroutine(this.CheckDistance());
 		StartCoroutine(this.MonsterAction());
-		
+			
+		_gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
 	}
 	
 	private IEnumerator CheckDistance()
@@ -87,12 +91,78 @@ public class MonsterCtrl : MonoBehaviour {
 		}
 	}
 	
-	
-	
-	
 	// Update is called once per frame
 	void Update () 
 	{
 	
 	}
+	
+	public int hp = 100;
+	
+	void OnCollisionEnter(Collision coll)
+	{
+		if(coll.gameObject.tag == "BULLET")
+		{
+			Destroy(coll.gameObject);
+			
+			animator.SetTrigger("IsHit");
+			
+			CreateBloodEffect(coll.transform.position);
+			
+			hp -= 10;
+		}
+		
+		if(hp <= 0)
+		{
+			Die();
+		}
+	}
+	
+	void Die()
+	{
+		isDie = true;
+		StopAllCoroutines();
+		MonsterStatus = MonStatus.die;
+		navMeshAgent.Stop();
+	
+		animator.SetTrigger("IsDie");
+		
+		gameObject.GetComponentInChildren<CapsuleCollider>().enabled = false;
+		
+		foreach(Collider coll in gameObject.GetComponentsInChildren<SphereCollider>())
+		{
+			coll.enabled = false;
+		}
+		
+		_gameUI.DispScore(50);
+	}
+
+    private void CreateBloodEffect(Vector3 position)
+    {
+        GameObject blood = (GameObject)Instantiate(bloodEffect, position, Quaternion.identity);
+		Destroy(blood, 2.0f);
+    }
+
+    public GameObject bloodEffect;
+	public GameObject bloodDecal;
+	
+	void OnPlayerDie()
+	{
+		StopAllCoroutines();
+		navMeshAgent.Stop();
+		animator.SetTrigger("IsPlayerDie");
+	}
+	
+	void OnEnable()
+	{
+		PlayerControl.OnPlayerDieEvent += OnPlayerDie;
+	}
+	
+	void OnDisalbe()
+	{
+		PlayerControl.OnPlayerDieEvent -= OnPlayerDie;
+		
+	}
+	
+	
 }

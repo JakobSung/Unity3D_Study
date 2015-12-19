@@ -43,8 +43,8 @@ public class PlayerControl : MonoBehaviour
 		h = Input.GetAxis("Horizontal");
 		v = Input.GetAxis("Vertical");
 		
-		Debug.Log("Horizontal " + h.ToString());
-		Debug.Log("Vertical " + v.ToString());
+		//Debug.Log("Horizontal " + h.ToString());
+		//Debug.Log("Vertical " + v.ToString());
 	
 		Vector3 moveVector = (Vector3.forward * v) + (Vector3.right * h);
 		
@@ -67,6 +67,42 @@ public class PlayerControl : MonoBehaviour
 		}
 		else{
 			_animation.CrossFade(anim.idel.name, 0.3f);
+		}
+	}
+	
+	public int hp = 100;
+	
+	void OnTriggerEnter(Collider coll)
+	{
+		if(coll.gameObject.tag == "PUNCH")
+		{
+			Debug.Log("Player Hit from PUNCH");
+			hp -= 10;
+		}
+		
+		if(hp <= 0)
+		{
+			PlayerDie();
+		}
+	}
+	
+	public delegate void PlayerDieHandler();
+	public static event PlayerDieHandler OnPlayerDieEvent;
+	
+	void PlayerDie()
+	{
+		Debug.Log("Player Die");
+		
+		//GameObject[] monsters = GameObject.FindGameObjectsWithTag("MONSTER");
+		
+		//foreach(GameObject mon in monsters)
+		//{
+		//	mon.SendMessage("OnPlayerDie", SendMessageOptions.DontRequireReceiver);
+		//}
+		
+		if	(OnPlayerDieEvent != null)
+		{
+			OnPlayerDieEvent.Invoke();
 		}
 	}
 	

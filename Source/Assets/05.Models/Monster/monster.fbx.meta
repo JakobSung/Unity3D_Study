@@ -160,7 +160,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    optimizeGameObjects: 0
+    optimizeGameObjects: 1
     motionNodeName: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -171,7 +171,9 @@ ModelImporter:
     animationPositionError: .5
     animationScaleError: .5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - hip/belly/L_arm/L_elbow/L_wrist
+    - hip/belly/R_arm/R_elbow/R_wrist
     clipAnimations:
     - serializedVersion: 16
       name: idle
