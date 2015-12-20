@@ -111,6 +111,9 @@ public class PlayerControl : MonoBehaviour
 		{
 			OnPlayerDieEvent.Invoke();
 		}
+		
+		
+		GameMgr.Instance.isGameOver = true;
 	}
 	
 	
