@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Anim
@@ -24,6 +25,8 @@ public class PlayerControl : MonoBehaviour
 	public Anim anim;
 	
 	public Animation _animation;
+    
+   
 	
 	// Use this for initialization
 	void Start () 
@@ -71,6 +74,8 @@ public class PlayerControl : MonoBehaviour
 	}
 	
 	public int hp = 100;
+    
+    public Image imgHpbar;
 	
 	void OnTriggerEnter(Collider coll)
 	{
@@ -78,6 +83,8 @@ public class PlayerControl : MonoBehaviour
 		{
 			Debug.Log("Player Hit from PUNCH");
 			hp -= 10;
+            
+            imgHpbar.fillAmount = (float)hp / 100;
 		}
 		
 		if(hp <= 0)
